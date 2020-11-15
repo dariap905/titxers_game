@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
-  List<String> _tabs = ['DAM', 'AFI', 'SMIX'];
-
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-          length: _tabs.length,
-      child: MaterialApp(
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'TITXERS',
-        theme: ThemeData(
-        ),
         home: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
@@ -26,8 +21,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               flexibleSpace: Container(
-                decoration:
-                BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/appbar_background.png'),
                     fit: BoxFit.cover,
@@ -83,67 +77,64 @@ class MyApp extends StatelessWidget {
                   ),
               ),
               actions: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(right: 10.0),
-                    child: OutlineButton.icon(
-                      onPressed: () {
-                        print("You tapped on EXP");
-                      },
-                      highlightedBorderColor: Colors.cyanAccent,
-                      splashColor: Colors.red,
-                      borderSide: BorderSide(
-                        color: Colors.purple,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(26.0),
-                      ),
-                      icon: const Icon(
-                        Icons.add,
-                        size: 18.0,
-                      ),
-                      label: const Text('EXP'),
+                Container(
+                  width: 122,
+                  padding: EdgeInsets.all(10),
+                  child: RaisedButton.icon(
+                    color: Colors.brown[600],
+                    textColor: Colors.yellow,
+                    onPressed: () {
+                      print("You tapped on EXP");
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
                     ),
+                    icon: const Icon(
+                      Icons.backup_rounded,
+                      size: 18.0,
+                      color: Colors.yellow,
+                    ),
+                    label: const Text('EXP'),
+                  ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 10.0),
-                  child: OutlineButton.icon(
+                Container(
+                  width: 122,
+                  padding: EdgeInsets.all(10),
+                  child: RaisedButton.icon(
+                    color: Colors.brown[600],
+                    textColor: Colors.yellow,
                     onPressed: () {
                       print("You tapped on GOLD");
                     },
-                    highlightedBorderColor: Colors.cyanAccent,
-                    splashColor: Colors.red,
-                    borderSide: BorderSide(
-                      color: Colors.purple,
-                    ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(26.0),
+                      borderRadius: BorderRadius.circular(0.0),
                     ),
                     icon: const Icon(
-                      Icons.add,
+                      Icons.backup_rounded,
                       size: 18.0,
+                      color: Colors.yellow,
                     ),
-                    label: const Text('GOLD'),
+                    label: const Text('9999'),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 10.0),
-                  child: OutlineButton.icon(
+                Container(
+                  width: 122,
+                  padding: EdgeInsets.all(10),
+                  child: RaisedButton.icon(
+                    color: Colors.brown[600],
+                    textColor: Colors.yellow,
                     onPressed: () {
                       print("You tapped on ECAIBS");
                     },
-                    highlightedBorderColor: Colors.cyanAccent,
-                    splashColor: Colors.red,
-                    borderSide: BorderSide(
-                      color: Colors.purple,
-                    ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(26.0),
+                      borderRadius: BorderRadius.circular(0.0),
                     ),
                     icon: const Icon(
-                      Icons.add,
+                      Icons.backup_rounded,
                       size: 18.0,
+                      color: Colors.yellow,
                     ),
-                    label: const Text('ECAIBS'),
+                    label: const Text('9999'),
                   ),
                 ),
               ],
@@ -151,53 +142,49 @@ class MyApp extends StatelessWidget {
                 color: Colors.yellow,
                 size: 25.0,
               ),
-              bottom: TabBar(
-                unselectedLabelColor: Colors.white,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicator: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [
-                          Colors.redAccent,
-                          Colors.orangeAccent
-                        ]
-                    ),
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.redAccent,
-                ),
-                tabs: _tabs.map((String name) => Tab(text: name)).toList(),
+            ),
+            body: Column(
+                children: <Widget>[
+                  Image.asset('assets/images/jose.png')
+                ]
+            ),
+            floatingActionButton: SpeedDial(
+              backgroundColor: Colors.brown,
+              overlayColor: Colors.blueGrey,
+              overlayOpacity: 0.2,
+              animatedIcon: AnimatedIcons.home_menu,
+              children: [
+                SpeedDialChild(
+                child: Icon(Icons.accessible_forward),
+                label: "AFI",
+                backgroundColor: Colors.green,
+                onTap: () => print("MUNDO AFI")
               ),
+                SpeedDialChild(
+                    child: Icon(Icons.accessible_forward),
+                    label: "DAM",
+                    backgroundColor: Colors.grey,
+                    onTap: () => print("MUNDO DAM")
+                ),
+                SpeedDialChild(
+                    child: Icon(Icons.accessible_forward),
+                    label: "COMS",
+                    backgroundColor: Colors.blue,
+                    onTap: () => print("MUNDO SMIX")
+                )
+              ],
             ),
-            body: TabBarView(
-              children: _tabs.map((String name) {
-                return SafeArea(
-                  top: false,
-                  bottom: false,
-                  child: Builder(
-                    // This Builder is needed to provide a BuildContext that is "inside"
-                    // the NestedScrollView, so that sliverOverlapAbsorberHandleFor() can
-                    // find the NestedScrollView.
-                    builder: (BuildContext context) {
-                      return Center(
-                        //child: Text('Page $name'),
-                        child: Image.asset('assets/images/jose.png'),
-                      );
-                    },
-                  ),
-                );
-              }).toList(),
-            ),
-            //Image.asset('assets/images/jose.png'),
             bottomNavigationBar: BottomAppBar(
-              color: Colors.blueAccent,
+              color: Colors.brown[200],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 0),
+                    padding: EdgeInsets.all(6),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.yellow, width: 2),
-                        color: Colors.brown,
+                        color: Colors.brown[600],
                         shape: BoxShape.rectangle,
                       ),
                       child: IconButton(
@@ -209,11 +196,11 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+                    padding: EdgeInsets.all(6),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.yellow, width: 2),
-                        color: Colors.brown,
+                        color: Colors.brown[600],
                         shape: BoxShape.rectangle,
                       ),
                       child: IconButton(
@@ -225,59 +212,58 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 0),
+                    padding: EdgeInsets.all(6),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.yellow, width: 2),
-                        color: Colors.brown,
+                        color: Colors.brown[600],
                         shape: BoxShape.rectangle,
                       ),
                       child: IconButton(
-                          icon: Icon(Icons.web_rounded, color: Colors.yellow,),
+                          icon: Icon(Icons.airline_seat_individual_suite, color: Colors.yellow,),
                           onPressed: () {
-                            print("You tapped on SHOP");
+                            print("You tapped on EGG");
                           }
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 0),
+                    padding: EdgeInsets.all(6),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.yellow, width: 2),
-                        color: Colors.brown,
+                        color: Colors.brown[600],
                         shape: BoxShape.rectangle,
                       ),
                       child: IconButton(
                           icon: Icon(Icons.add_shopping_cart, color: Colors.yellow,),
                           onPressed: () {
-                            print("You tapped on FOOD");
+                            print("You tapped on ITEMSHOP");
                           }
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 0),
+                    padding: EdgeInsets.all(6),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.yellow, width: 2),
-                        color: Colors.brown,
+                        color: Colors.brown[600],
                         shape: BoxShape.rectangle,
                       ),
                       child: IconButton(
-                          icon: Icon(Icons.account_balance_sharp, color: Colors.yellow,),
+                          icon: Icon(Icons.wash, color: Colors.yellow,),
                           onPressed: () {
-                            print("You tapped on WORLDS");
+                            print("You tapped on FOOD");
                           }
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
           ),
         ),
-      ),
     );
   }
 }
