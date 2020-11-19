@@ -1,38 +1,79 @@
+import 'package:flame/anchor.dart';
+import 'package:flame/components/animation_component.dart';
+import 'package:flame/components/component.dart';
+import 'package:flame/components/mixins/resizable.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:flame/game.dart';
+import 'package:flame/util.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-void main() {
-  runApp(MyApp());
+const COLOR = const Color(0xFFDDC0A3);
+const SIZE = 52.0;
+const GRAVITY = 400.0;
+const BOOST = -380.0;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final size = await Flame.util.initialDimensions();
+
+  final game = MyGame(size);
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Titxers',
+      home: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/computer_background.png"),
+                fit: BoxFit.cover)
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: _buildAppBar(),
+          body: game.widget,
+          floatingActionButton: _buildSpeedDial(),
+          bottomNavigationBar: _buildBottomAppBar(),
+        ),
+      ),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class Bg extends Component with Resizable{
+  static final Paint _paint = Paint()..color = COLOR;
+  @override
+  void render(Canvas c) {
+    c.drawRect(Rect.fromLTWH(0.0, 0.0, size.width, size.height), _paint);
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Titxers',
-        home: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/computer_background.png"),
-                  fit: BoxFit.cover)
-          ),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: _buildAppBar(),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset('assets/images/profs_3.png')
-                ]
-            ),
-            floatingActionButton: _buildSpeedDial(),
-            bottomNavigationBar: _buildBottomAppBar(),
-          ),
-        ),
-    );
+  void update(double t) {
+    // TODO: implement update
   }
+
+}
+
+class Doll extends AnimationComponent with Resizable{
+  Doll(): super.sequenced(SIZE, SIZE, 'doll_sprite.png', 4, textureWidth: 16.0, textureHeight: 16.0){
+    this.anchor = Anchor.center;
+  }
+
+  @override
+  void resize(Size size){
+    super.resize(size);
+    this.x = size.width / 2;
+    this.y = size.height / 2;
+  }
+}
+
+class MyGame extends BaseGame {
+  MyGame(Size size){
+    add(Bg());
+    add(Doll());
+  }
+
 }
 
 Widget _buildAppBar() {
@@ -81,7 +122,7 @@ Widget _buildAppBar() {
           icon: const Icon(
             Icons.backup_rounded,
           ),
-          label: const Text('EXP'),
+          label: const Text('333'),
         ),
       ),
       Container(
@@ -154,7 +195,7 @@ Widget _buildBottomAppBar() {
           padding: EdgeInsets.all(6),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius:BorderRadius.circular(6),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
               color: Colors.white,
               shape: BoxShape.rectangle,
             ),
@@ -170,7 +211,7 @@ Widget _buildBottomAppBar() {
           padding: EdgeInsets.all(6),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius:BorderRadius.circular(8),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
               color: Colors.white,
               shape: BoxShape.rectangle,
             ),
@@ -186,7 +227,7 @@ Widget _buildBottomAppBar() {
           padding: EdgeInsets.all(6),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius:BorderRadius.circular(10),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
               color: Colors.white,
               shape: BoxShape.rectangle,
             ),
@@ -202,7 +243,7 @@ Widget _buildBottomAppBar() {
           padding: EdgeInsets.all(6),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius:BorderRadius.circular(12),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
               color: Colors.white,
               shape: BoxShape.rectangle,
             ),
@@ -218,7 +259,7 @@ Widget _buildBottomAppBar() {
           padding: EdgeInsets.all(6),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius:BorderRadius.circular(14),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
               color: Colors.white,
               shape: BoxShape.rectangle,
             ),
